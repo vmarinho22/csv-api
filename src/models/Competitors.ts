@@ -45,6 +45,8 @@ class Competitors {
     let csvParse = await csv.parse(fileContent, options);
     csvParse = csvParse.slice(1);
 
+    Log.info('Pegando informações dos concorrentes');
+
     return csvParse;
   }
 

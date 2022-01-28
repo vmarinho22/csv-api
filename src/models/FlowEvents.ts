@@ -42,6 +42,8 @@ class FlowEvents {
     let csvParse = await csv.parse(fileContent, options);
     csvParse = csvParse.slice(1);
 
+    Log.info('Pegando informações do evento de fluxo');
+
     return csvParse;
   }
 }

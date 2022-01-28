@@ -32,6 +32,8 @@ class District {
     let csvParse = await csv.parse(fileContent, options);
     csvParse = csvParse.slice(1);
 
+    Log.info('Pegando informações dos bairros');
+
     return csvParse;
     
   }

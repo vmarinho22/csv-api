@@ -5,6 +5,6 @@ import { AnalysisController } from "../controllers/AnalysisController";
 export const routerAnalysis = Router();
 
 // Analysis
-routerAnalysis.route('/')
+routerAnalysis.route('/:id')
         .get(AnalysisController.index);
 
