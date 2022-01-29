@@ -16,6 +16,11 @@ export const AnalysisController = {
 
         const competitor : any = Competitors.getCompetitorData(id);
 
+        if(competitor == undefined) {
+            Log.info(`Busca realizada no concorrente com o id: ${id}, porém sem resultado na base de dados.`);
+            return res.status(200).json({status: 1, response: 'Não foi encontrado nenhum concorrente com esse ID'});
+        }
+
         const district : any = District.getDistrictData(competitor.cod_district);
 
         let population : number = 0;
@@ -46,6 +51,6 @@ export const AnalysisController = {
 
         Log.info(`Busca realizada no concorrente: ${competitor.name}, com o id: ${id}`);
 
-        return res.status(200).json(finalAnalysis);
+        return res.status(200).json({status: 1,response: finalAnalysis});
     }
 }
