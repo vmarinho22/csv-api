@@ -16,9 +16,16 @@ type CompetitorsType = {
 };
 
 class Competitors {
-  public resultCSV: CompetitorsType[] = [];
 
-  async getData() {
+  public resultCSV: any = [];
+
+  constructor()  {
+    (async () => {
+      this.resultCSV = await this.readCSV();
+    })();
+  }
+
+  async readCSV() : Promise<CompetitorsType> {
     // Pegando o caminho do arquivo
     const csvFilePath = path.resolve(__dirname, "../../data/concorrentes.csv");
     // Criando os indices do objeto
@@ -48,6 +55,11 @@ class Competitors {
     Log.info('Pegando informações dos concorrentes');
 
     return csvParse;
+  }
+
+  getCompetitorData(id: string) : any {
+
+    return this.resultCSV.find( (competitors: any) => competitors.code == id );
   }
 
 }

@@ -13,8 +13,16 @@ type DistrictType = {
 };
 
 class District {
+  
+  public resultCSV: any = [];
 
-  async getData() {
+  constructor()  {
+    (async () => {
+      this.resultCSV = await this.readCSV();
+    })();
+  }
+
+  async readCSV(): Promise<DistrictType> {
        // Pegando o caminho do arquivo
     const csvFilePath = path.resolve(__dirname, "../../data/bairros.csv");
     // Criando os indices do objeto
@@ -36,6 +44,10 @@ class District {
 
     return csvParse;
     
+  }
+
+  getDistrictData(id : string) : string[] {
+    return this.resultCSV.find( (district: any) => district.code == id);
   }
 
 }

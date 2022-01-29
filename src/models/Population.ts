@@ -5,7 +5,15 @@ import Log from "../middlewares/logs/logger";
 
 class Population {
 
-  async getData() {
+  public resultJSON: any = [];
+
+  constructor()  {
+    (async () => {
+      this.resultJSON = await this.readJSON();
+    })();
+  }
+
+  async readJSON() {
     
     // Pegando o caminho do arquivo
     const jsonFilePath = path.resolve(__dirname, "../../data/populacao.json");
@@ -19,6 +27,10 @@ class Population {
     Log.info('Pegando informações da população');
 
     return jsonParse;
+  }
+
+  getPopulationData(id: string) : any {
+    return this.resultJSON.find( (population: any) => population.codigo == id);
   }
 }
 
