@@ -131,3 +131,6 @@ dist
 .env
 
 eventos_de_fluxo.csv
+
+cypress/videos
+cypress/screenshots
