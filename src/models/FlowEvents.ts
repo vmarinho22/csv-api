@@ -24,11 +24,15 @@ class FlowEvents {
   }
 
   async readCSV(): Promise<FlowEventsType> {
+    // Abre o arquivo gz e lê o conteúdo
     const fileContents = fs.createReadStream("./data/eventos_de_fluxo.csv.gz");
+    // Cria um arquivo csv
     const writeStream = fs.createWriteStream("./data/eventos_de_fluxo.csv");
+    // Cria uma instancia binária de zip
     const unzip = zlib.createGunzip();
 
-    fileContents.pipe(unzip).pipe(writeStream);
+    // Imprime o conteúdo do arquivo gz dentro do arquivo csv
+    await fileContents.pipe(unzip).pipe(writeStream);
 
     // Pegando o caminho do arquivo
     const csvFilePath = path.resolve(
