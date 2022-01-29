@@ -18,12 +18,20 @@ export const AnalysisController = {
 
         const district : any = District.getDistrictData(competitor.cod_district);
 
+        let population : number = 0;
+        let density : number = 0;
+        let districtName: string = '';
+        if(district != undefined) {
+            // Pega o valor da população
+            population = Population.getPopulationNumber(district.code || 0);
+            
+            // Realiza o calculo da densidade do local
+            density = parseFloat((population / parseFloat(district.area)).toFixed(2));
+            // Nome do distrito
+            districtName = district.name
+        }
+
         const flowEvents : any = FlowEvents.getFormatedWeekFow(id);
-
-        const population : any = Population.getPopulationData(district.code);
-
-        // Realiza o calculo da densidade do local
-        let density: number = parseFloat((parseFloat(population.populacao) / parseFloat(district.area)).toFixed(2));
 
         const finalAnalysis: any = {
             cod_concorrente: competitor.code,
@@ -31,8 +39,8 @@ export const AnalysisController = {
             endereco: competitor.address,
             preco_praticado: (parseFloat(competitor.price_range)).toFixed(2),
             fluxo_medio: flowEvents,
-            bairro: district.name,
-            populacao: population.populacao,
+            bairro: districtName,
+            populacao: population,
             densidade: density
         }
 

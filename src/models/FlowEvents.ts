@@ -63,6 +63,11 @@ class FlowEvents {
   getInfoWeek(id: string): string[] {
     const flowEvents: any = this.getFlowEventsData(id);
 
+    console.log(flowEvents);
+
+    if(flowEvents.length == 0) return [];
+      
+
     let weekday: any = {
       morning: 0,
       evening: 0,
@@ -109,6 +114,10 @@ class FlowEvents {
 
   getFormatedWeekFow(id: string): string[] {
     const week : any = this.getInfoWeek(id);
+
+    console.log('week', week);
+
+    if(week.length == 0) return ['Não existem dados de fluxo de pessoas para esse concorrente'];
 
     // Fluxo em % = (periodo * 100)/ total_dia
     let weekResul : any = {
