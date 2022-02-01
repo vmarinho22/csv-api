@@ -24,15 +24,21 @@ class FlowEvents {
   }
 
   async readCSV(): Promise<FlowEventsType> {
-    // Abre o arquivo gz e lê o conteúdo
-    const fileContents = fs.createReadStream("./data/eventos_de_fluxo.csv.gz");
-    // Cria um arquivo csv
-    const writeStream = fs.createWriteStream("./data/eventos_de_fluxo.csv");
-    // Cria uma instancia binária de zip
-    const unzip = zlib.createGunzip();
 
-    // Imprime o conteúdo do arquivo gz dentro do arquivo csv
-    await fileContents.pipe(unzip).pipe(writeStream);
+    if (!fs.existsSync("./data/eventos_de_fluxo.csv")) {
+        // Abre o arquivo gz e lê o conteúdo
+        const fileContents = fs.createReadStream("./data/eventos_de_fluxo.csv.gz");
+        // Cria um arquivo csv
+        const writeStream = fs.createWriteStream("./data/eventos_de_fluxo.csv");
+        // Cria uma instancia binária de zip
+        const unzip = zlib.createGunzip();
+
+        // Imprime o conteúdo do arquivo gz dentro do arquivo csv
+        await fileContents.pipe(unzip).pipe(writeStream);
+
+        await new Promise(resolve => writeStream.on("finish", resolve));
+    }
+
 
     // Pegando o caminho do arquivo
     const csvFilePath = path.resolve(
@@ -41,6 +47,7 @@ class FlowEvents {
     );
     // Criando os indices do objeto
     const headers = ["code", "datetime", "cod_competitor"];
+
     // Lendo o arquivo
     const fileContent = fs.readFileSync(csvFilePath, { encoding: "utf-8" });
 
@@ -66,8 +73,6 @@ class FlowEvents {
 
   getInfoWeek(id: string): string[] {
     const flowEvents: any = this.getFlowEventsData(id);
-
-    console.log(flowEvents);
 
     if(flowEvents.length == 0) return [];
       
@@ -118,8 +123,6 @@ class FlowEvents {
 
   getFormatedWeekFow(id: string): string[] {
     const week : any = this.getInfoWeek(id);
-
-    console.log('week', week);
 
     if(week.length == 0) return ['Não existem dados de fluxo de pessoas para esse concorrente'];
 
